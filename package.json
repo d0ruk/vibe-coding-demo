@@ -1,0 +1,12 @@
+{
+  "name": "vibe-coding-demo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^2.0.0",
+    "typescript": "^4.0.0"
+  }
+}

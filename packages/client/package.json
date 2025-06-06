@@ -1,0 +1,22 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.0.0",
+    "eslint": "^7.0.0",
+    "prettier": "^2.0.0"
+  },
+  "eslintConfig": {
+    "extends": "../../.eslintrc.base.json"
+  },
+  "prettier": "../../.prettierrc.base"
+}

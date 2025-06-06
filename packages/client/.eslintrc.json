@@ -1,0 +1,10 @@
+{
+  "extends": "../../.eslintrc.base.json",
+  "parserOptions": {
+    "tsconfigRootDir": "./",
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    // Add any client-specific rules here
+  }
+}
