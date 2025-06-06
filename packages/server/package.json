@@ -17,7 +17,13 @@
   },
   "prettier": "../../.prettierrc.base",
   "dependencies": {
-    "chalk": "^5.4.1"
+    "@dotenvx/dotenvx": "^1.44.1",
+    "chalk": "^5.4.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "pino": "^9.7.0",
+    "zod": "^3.25.56"
   },
   "devDependencies": {
     "eslint-plugin-import": "^2.31.0",
