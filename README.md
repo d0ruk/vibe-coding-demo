@@ -33,16 +33,7 @@ To get started with the Vibe Coding Demo, follow these steps:
    npm install
    ```
 
-3. **Run the client:**
-
-   Navigate to the client package and start the application:
-
-   ```bash
-   cd packages/client
-   npm start
-   ```
-
-4. **Run the server:**
+3. **Run the server:**
 
    Navigate to the server package and start the application:
 
@@ -51,13 +42,30 @@ To get started with the Vibe Coding Demo, follow these steps:
    npm start
    ```
 
+4. **Run the client:**
+
+   Navigate to the client package and start the application:
+
+   ```bash
+   cd packages/client
+   npm start
+   ```
+
 ## Configuration
 
-This project uses ESLint and Prettier for code linting and formatting. The configurations are set up to ensure consistency across both packages.
+This project uses ESLint (with Flat Config), Prettier, and TypeScript for code linting, formatting, and type checking. The configuration is designed for consistency and modern best practices across both packages.
 
-- **ESLint**: The base ESLint configuration is located in `.eslintrc.base.json`, and each package extends this configuration.
-- **Prettier**: The base Prettier configuration is located in `.prettierrc.base`, and each package extends this configuration.
-- **TypeScript**: The base TypeScript configuration is in `tsconfig.base.json`, which is extended by each package's `tsconfig.json`.
+- **ESLint (Flat Config):**
+  - The root config is in `eslint.config.mjs` (ES module, Flat Config format).
+  - Each package has its own `eslint.config.mjs` that imports the root config and adds package-specific plugins and rules.
+  - The client uses `eslint-plugin-react` and browser globals; the server uses `eslint-plugin-n`, `eslint-plugin-security`, `eslint-plugin-promise`, and `eslint-plugin-import` for Node.js best practices.
+- **Prettier:**
+  - Each package has a `.prettierrc` file with consistent formatting rules (semi, double quotes, trailing commas, etc.).
+- **TypeScript:**
+  - The base config is in `tsconfig.base.json` at the root.
+  - Each package extends this with its own `tsconfig.json`.
+
+All linting and formatting scripts are set up to run on both `.ts` and `.tsx` files in each package's `src/` folder.
 
 ## Contributing
 

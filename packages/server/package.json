@@ -4,18 +4,23 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
+    "prebuild": "rimraf dist",
+    "prestart": "npm run build",
     "start": "node dist/index.js",
-    "lint": "eslint .",
-    "format": "prettier --write ."
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "typescript": "^4.0.0",
-    "eslint": "^7.0.0",
-    "prettier": "^2.0.0"
+    "lint": "eslint --no-error-on-unmatched-pattern src/**/*.{ts,tsx}",
+    "format": "prettier --config ../../.prettierrc --no-error-on-unmatched-pattern --write src/**/*.{ts,tsx}"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc.base.json"
   },
-  "prettier": "../../.prettierrc.base"
+  "prettier": "../../.prettierrc.base",
+  "dependencies": {
+    "chalk": "^5.4.1"
+  },
+  "devDependencies": {
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^17.19.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-security": "^3.0.1"
+  }
 }

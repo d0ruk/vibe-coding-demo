@@ -1,6 +1,7 @@
+import chalk from "chalk";
+
 export const startServer = () => {
-    console.log("Server is starting...");
-    // Additional server logic can be added here
+  console.log(chalk.bgGreen.white("Server is starting..."));
 };
 
 startServer();
