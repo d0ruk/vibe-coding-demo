@@ -15,11 +15,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
 app.use(helmet());
 
-app.use((req, res, next) => {
-  logger.info({ method: req.method, url: req.url });
-  next();
-});
-
 app.use(healthRoutes);
+
+app.use((req, res) => {
+  logger.warn(`Route not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ error: "Route not found" });
+});
 
 export { app };

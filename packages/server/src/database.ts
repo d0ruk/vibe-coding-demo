@@ -1,4 +1,8 @@
 import { DataSource } from "typeorm";
+import { Book } from "~/entities/Book";
+import { Author } from "~/entities/Author";
+import { Publisher } from "~/entities/Publisher";
+import { Customer } from "~/entities/Customer";
 import { env } from "~/util/env";
 import logger from "~/util/logger";
 
@@ -7,7 +11,7 @@ export const AppDataSource = new DataSource({
   database: "./database.sqlite",
   synchronize: env.SYNC_DB,
   logging: env.DEBUG,
-  entities: [],
+  entities: [Book, Author, Publisher, Customer],
 });
 
 export const initializeDatabase = async () => {
