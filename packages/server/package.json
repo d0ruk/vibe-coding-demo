@@ -12,10 +12,6 @@
     "format": "prettier --config ../../.prettierrc --no-error-on-unmatched-pattern --write src/**/*.{ts,tsx}",
     "quality": "npm run format && npm run lint"
   },
-  "eslintConfig": {
-    "extends": "../../.eslintrc.base.json"
-  },
-  "prettier": "../../.prettierrc.base",
   "dependencies": {
     "@dotenvx/dotenvx": "^1.44.1",
     "chalk": "^5.4.1",

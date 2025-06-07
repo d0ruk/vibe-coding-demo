@@ -2,7 +2,7 @@ import cors from "cors";
 import express, { type Express } from "express";
 import helmet from "helmet";
 import { pino } from "pino";
-import { env } from "./util/env";
+import { env } from "~/util/env";
 
 const logger = pino({ name: "server start" });
 const app: Express = express();

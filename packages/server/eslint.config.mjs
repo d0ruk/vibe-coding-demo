@@ -7,12 +7,8 @@ import globals from "globals";
 export default [
   ...baseConfig,
   {
-    files: ["src/**/*.{ts,tsx,js,jsx}"],
+    files: ["src/**/*.{ts,tsx}"],
     languageOptions: {
-      parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: "module",
-      },
       globals: {
         ...globals.node,
       }
