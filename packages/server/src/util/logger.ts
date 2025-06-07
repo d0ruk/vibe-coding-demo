@@ -2,41 +2,46 @@
 
 import { pino } from "pino";
 import path from "path";
-import { readFileSync, existsSync, rmSync } from "fs";
+import { existsSync, rmSync } from "fs";
 
-const pkg = JSON.parse(
-  readFileSync(path.resolve(__dirname, "../../../../package.json"), "utf-8")
-);
-const name = pkg.name || "server.log";
+const initializeLogger = async () => {
+  const { getEnv } = await import("~/util/env");
+  const env = await getEnv();
 
-const folderPath = path.join("/tmp", name);
-if (existsSync(folderPath)) {
-  rmSync(folderPath, { recursive: true, force: true });
-}
+  const name = env.APP_NAME || "app";
+  const folderPath = path.join("/tmp", name);
+  if (existsSync(folderPath)) {
+    rmSync(folderPath, { recursive: true, force: true });
+  }
 
-const logger = pino({
-  name,
-  level: "info",
-  transport: {
-    targets: [
-      {
-        target: "pino-pretty",
-        options: {
-          colorize: true,
-          translateTime: "SYS:standard",
-          ignore: "pid,hostname",
+  return pino({
+    name,
+    level: "info",
+    transport: {
+      targets: [
+        ...(!env.isProduction
+          ? [
+              {
+                target: "pino-pretty",
+                options: {
+                  colorize: true,
+                  translateTime: "SYS:standard",
+                  ignore: "pid,hostname",
+                },
+              },
+            ]
+          : []),
+        {
+          target: "pino/file",
+          level: "warn",
+          options: {
+            destination: `${folderPath}/${new Date().toISOString()}.log`,
+            mkdir: true,
+          },
         },
-      },
-      {
-        target: "pino/file",
-        level: "warn",
-        options: {
-          destination: `${folderPath}/${new Date().toISOString()}.log`,
-          mkdir: true,
-        },
-      },
-    ],
-  },
-});
+      ],
+    },
+  });
+};
 
-export default logger;
+export default initializeLogger;

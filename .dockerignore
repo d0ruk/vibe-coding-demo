@@ -1,0 +1,7 @@
+**/*
+!packages/server/**
+!package.json
+!tsconfig.base.json
+!.prettierrc
+!eslint.config.mjs
+!package-lock.json

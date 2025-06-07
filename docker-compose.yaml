@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8080:${APP_PORT}"
+    environment:
+      - APP_PORT=${APP_PORT}
+  sqlitebrowser:
+    image: lscr.io/linuxserver/sqlitebrowser:latest
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./packages/server/database.sqlite:/config/database.sqlite
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC

@@ -1,25 +1,32 @@
 import cors from "cors";
 import express, { type Express } from "express";
 import helmet from "helmet";
-import logger from "~/util/logger";
-import { env } from "~/util/env";
+import initializeLogger from "~/util/logger";
+import { getEnv } from "~/util/env";
 import healthRoutes from "~/routes/health";
 
-const app: Express = express();
+const initializeApp = async () => {
+  const env = await getEnv();
+  const logger = await initializeLogger();
 
-app.set("trust proxy", true);
+  const app: Express = express();
 
-// Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
-app.use(helmet());
+  app.set("trust proxy", true);
 
-app.use(healthRoutes);
+  // Middlewares
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
+  app.use(helmet());
 
-app.use((req, res) => {
-  logger.warn(`Route not found: ${req.method} ${req.originalUrl}`);
-  res.status(404).json({ error: "Route not found" });
-});
+  app.use(healthRoutes);
 
-export { app };
+  app.use((req, res) => {
+    logger.warn(`Route not found: ${req.method} ${req.originalUrl}`);
+    res.status(404).json({ error: "Route not found" });
+  });
+
+  return app;
+};
+
+export default await initializeApp();

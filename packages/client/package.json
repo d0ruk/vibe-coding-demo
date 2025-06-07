@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "prebuild": "npm run quality && rimraf dist tsconfig.tsbuildinfo",
-    "postbuild": "tsc-alias -p tsconfig.json",
+    "postbuild": "tsc-alias -p tsconfig.json -f",
     "build": "tsc && vite build",
     "prestart": "npm run build",
     "start": "vite preview",

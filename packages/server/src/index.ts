@@ -1,23 +1,33 @@
 import "reflect-metadata";
-import { env } from "~/util/env";
-import { app } from "~/app";
-import logger from "~/util/logger";
+import { getEnv } from "~/util/env";
+import initializeLogger from "./util/logger";
+import app from "~/app";
+import "./database";
 
-const server = app.listen(env.PORT, () => {
-  const { NODE_ENV, HOST, PORT } = env;
-  logger.info(`Server (${NODE_ENV}) running on port http://${HOST}:${PORT}`);
-});
+const initializeServer = async () => {
+  const env = await getEnv();
+  const logger = await initializeLogger();
 
-const onCloseSignal = () => {
-  logger.info("SIGINT received, shutting down");
-  server.close(() => {
-    logger.info("Server closed");
-    throw new Error("Server shutdown completed");
+  const server = app.listen(env.APP_PORT, () => {
+    const { NODE_ENV, HOST, APP_PORT } = env;
+    logger.info(
+      `Server (${NODE_ENV}) running on port http://${HOST}:${APP_PORT}`
+    );
   });
-  setTimeout(() => {
-    throw new Error("Force shutdown after 10s");
-  }, 10000).unref();
+
+  const onCloseSignal = () => {
+    logger.info("SIGINT received, shutting down");
+    server.close(() => {
+      logger.info("Server closed");
+      throw new Error("Server shutdown completed");
+    });
+    setTimeout(() => {
+      throw new Error("Force shutdown after 10s");
+    }, 10000).unref();
+  };
+
+  process.on("SIGINT", onCloseSignal);
+  process.on("SIGTERM", onCloseSignal);
 };
 
-process.on("SIGINT", onCloseSignal);
-process.on("SIGTERM", onCloseSignal);
+await initializeServer();

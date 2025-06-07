@@ -1,13 +1,13 @@
 import dotenvx from "@dotenvx/dotenvx";
 import { z } from "zod";
-import logger from "~/util/logger";
 
 dotenvx.config({ debug: Boolean(process.env.DEBUG) });
 
 const envSchema = z.object({
+  APP_NAME: z.string().min(1),
+  APP_PORT: z.coerce.number().int().positive().default(8080),
   NODE_ENV: z.enum(["development", "production", "test"]).default("production"),
   HOST: z.string().min(1).default("localhost"),
-  PORT: z.coerce.number().int().positive().default(8080),
   CORS_ORIGIN: z
     .string()
     .refine(
@@ -22,13 +22,18 @@ const envSchema = z.object({
 const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
-  logger.error("❌ Invalid environment variables:", parsedEnv.error.format());
-  throw new Error("Invalid environment variables");
+  throw new Error(
+    `❌ Invalid environment variables: ${JSON.stringify(
+      parsedEnv.error.format()
+    )}`
+  );
 }
 
-export const env = {
+const env = {
   ...parsedEnv.data,
   isDevelopment: parsedEnv.data.NODE_ENV === "development",
   isProduction: parsedEnv.data.NODE_ENV === "production",
   isTest: parsedEnv.data.NODE_ENV === "test",
 };
+
+export const getEnv = async () => env;
