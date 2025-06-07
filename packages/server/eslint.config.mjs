@@ -11,7 +11,7 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,
-      }
+      },
     },
     plugins: {
       n: nPlugin,
@@ -22,7 +22,13 @@ export default [
       ...nPlugin.configs.recommended.rules,
       ...securityPlugin.configs.recommended.rules,
       ...promisePlugin.configs.recommended.rules,
-      "n/no-missing-import": "off"
+      "n/no-missing-import": "off",
+      "n/no-extraneous-import": [
+        "error",
+        {
+          allowModules: ["reflect-metadata"],
+        },
+      ],
     },
   },
 ];

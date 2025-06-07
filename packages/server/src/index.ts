@@ -1,5 +1,7 @@
+import "reflect-metadata";
 import { env } from "~/util/env";
-import { app, logger } from "~/app";
+import { app } from "~/app";
+import logger from "~/util/logger";
 
 const server = app.listen(env.PORT, () => {
   const { NODE_ENV, HOST, PORT } = env;
@@ -7,9 +9,9 @@ const server = app.listen(env.PORT, () => {
 });
 
 const onCloseSignal = () => {
-  logger.info("sigint received, shutting down");
+  logger.info("SIGINT received, shutting down");
   server.close(() => {
-    logger.info("server closed");
+    logger.info("Server closed");
     throw new Error("Server shutdown completed");
   });
   setTimeout(() => {

@@ -1,7 +1,8 @@
 import dotenvx from "@dotenvx/dotenvx";
 import { z } from "zod";
+import logger from "~/util/logger";
 
-dotenvx.config();
+dotenvx.config({ debug: Boolean(process.env.DEBUG) });
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("production"),
@@ -14,12 +15,14 @@ const envSchema = z.object({
       "CORS_ORIGIN must be a URL or the literal string '*'"
     )
     .default("http://localhost:8080"),
+  SYNC_DB: z.coerce.boolean().default(false),
+  DEBUG: z.coerce.boolean().default(false),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
-  console.error("❌ Invalid environment variables:", parsedEnv.error.format());
+  logger.error("❌ Invalid environment variables:", parsedEnv.error.format());
   throw new Error("Invalid environment variables");
 }
 
