@@ -5,12 +5,13 @@ import {
   OneToMany,
   BaseEntity,
 } from "typeorm";
+import type { Relation } from "typeorm";
 import { Book } from "./Book";
 
 export interface IPublisher {
   id: number;
   name: string;
-  books: Book[];
+  books: Relation<Book[]>;
 }
 
 @Entity()
@@ -22,5 +23,5 @@ export class Publisher extends BaseEntity implements IPublisher {
   name: string;
 
   @OneToMany(() => Book, (book) => book.publisher)
-  books: Book[];
+  books: Relation<Book[]>;
 }

@@ -1,18 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  BaseEntity,
+} from "typeorm";
+import type { Relation } from "typeorm";
+import { User } from "./User";
 
 export interface ICustomer {
   id: number;
-  first_name: string;
-  last_name: string;
-  login: string;
-  passwordhash: string;
   postal_code: string;
   street: string;
   building_no: string;
   flat_no: string;
   city: string;
-  nip: string;
-  phone_number: string;
+  user: Relation<User>;
 }
 
 @Entity()
@@ -21,18 +24,6 @@ export class Customer extends BaseEntity implements ICustomer {
   id: number;
 
   @Column()
-  first_name: string;
-
-  @Column()
-  last_name: string;
-
-  @Column()
-  login: string;
-
-  @Column()
-  passwordhash: string;
-
-  @Column()
   postal_code: string;
 
   @Column()
@@ -47,9 +38,6 @@ export class Customer extends BaseEntity implements ICustomer {
   @Column()
   city: string;
 
-  @Column()
-  nip: string;
-
-  @Column()
-  phone_number: string;
+  @ManyToOne(() => User, (user) => user.customers)
+  user: Relation<User>;
 }

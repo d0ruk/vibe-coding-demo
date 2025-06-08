@@ -17,3 +17,11 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./packages/server/openapi.yaml:/openapi.yaml
+    environment:
+      - SWAGGER_JSON=/openapi.yaml

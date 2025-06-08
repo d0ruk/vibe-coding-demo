@@ -3,7 +3,9 @@ import express, { type Express } from "express";
 import helmet from "helmet";
 import initializeLogger from "~/util/logger";
 import { getEnv } from "~/util/env";
-import healthRoutes from "~/routes/health";
+import HealthRoutes from "~/routes/HealthRoutes";
+import BookRoutes from "~/routes/BookRoutes";
+import UserRoutes from "~/routes/UserRoutes";
 
 const initializeApp = async () => {
   const env = await getEnv();
@@ -19,7 +21,9 @@ const initializeApp = async () => {
   app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
   app.use(helmet());
 
-  app.use(healthRoutes);
+  app.use("/health", HealthRoutes);
+  app.use("/books", BookRoutes);
+  app.use("/users", UserRoutes);
 
   app.use((req, res) => {
     logger.warn(`Route not found: ${req.method} ${req.originalUrl}`);

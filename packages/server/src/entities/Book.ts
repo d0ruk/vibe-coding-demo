@@ -1,4 +1,12 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  ManyToOne,
+  BaseEntity,
+  JoinColumn,
+} from "typeorm";
+import type { Relation } from "typeorm";
 import { Author } from "./Author";
 import { Publisher } from "./Publisher";
 
@@ -9,8 +17,10 @@ export interface IBook {
   edition: number;
   available_quantity: number;
   price: number;
-  author: Author;
-  publisher: Publisher;
+  authorId: number;
+  author: Relation<Author>;
+  publisherId: number;
+  publisher: Relation<Publisher>;
 }
 
 @Entity()
@@ -33,9 +43,17 @@ export class Book extends BaseEntity implements IBook {
   @Column("decimal", { precision: 6, scale: 2 })
   price: number;
 
+  @Column()
+  authorId: number;
+
   @ManyToOne(() => Author, (author: Author) => author.books)
-  author: Author;
+  @JoinColumn({ name: "authorId" })
+  author: Relation<Author>;
+
+  @Column()
+  publisherId: number;
 
   @ManyToOne(() => Publisher, (publisher: Publisher) => publisher.books)
-  publisher: Publisher;
+  @JoinColumn({ name: "publisherId" })
+  publisher: Relation<Publisher>;
 }
